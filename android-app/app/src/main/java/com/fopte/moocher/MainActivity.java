@@ -1,6 +1,10 @@
 package com.fopte.moocher;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +19,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /** ActionBar actionBar;
+        actionBar = getActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#F9476C"));
+        actionBar.setBackgroundDrawable(colorDrawable); **/
     }
 
     @Override
@@ -41,8 +50,10 @@ public class MainActivity extends ActionBarActivity {
         String username = usernameText.getText().toString();
         EditText passwordText = (EditText) findViewById(R.id.Password);
         String password = usernameText.getText().toString();
-        intent.putExtra("username", username);
-        intent.putExtra("password", password);
+        // SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        // editor.putString("username", username);
+        //editor.putString("password", password);
+        // editor.commit();
         startActivity(intent);
     }
 }
