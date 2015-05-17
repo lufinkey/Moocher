@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     
     @IBAction func buttonPressed(sender: AnyObject) {
-        println("Hello world")
+        //println("Hello world")
     }
     
     @IBAction func editEmail(sender: AnyObject) {

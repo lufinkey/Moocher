@@ -36,7 +36,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         //var latDelta:CLLocationDegrees = 0.01
         //var longDelta:CLLocationDegrees = 0.01
         //var theSpan:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, longDelta)
-        //var theLoc:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        
         //var theRegion:MKCoordinateRegion = MKCoordinateRegionMake(theLoc, theSpan)
         
         //self.map.setRegion(theRegion, animated: true)
@@ -60,12 +60,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // See if we need to notify the user (for if we are updating in the background
         
-        /*
-        let url = NSURL(string: "http://local.moocher.com/api/v1/nearby.php?longitude=\(long)&latitude=\(lat)&radius=\(rad)")
-        let session = NSURLSession.sharedSession()
-        let dataTask = session.dataTaskWithURL(url!, completionHandler: { (data: NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            //do something
-            if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {//NSDictionary {
+        
+        /*var endpoint = NSURL(string: "http://moocher.atwebpages.com/api/v1/nearby.php?longitude=\(long)&latitude=\(lat)&radius=\(rad)")
+        var data = NSData(contentsOfURL: endpoint!)
+        if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {
                 if json.count > 0 {
                     var localNotification: UILocalNotification = UILocalNotification()
                     localNotification.alertAction = "Testing notifications on iOS8"
@@ -73,24 +71,27 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     localNotification.fireDate = NSDate(timeIntervalSinceNow: 1)
                     UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
                 }
-            }
-        })*/
+        }*/
     }
     
     override func viewWillAppear(animated: Bool) {
         
         // get data and set up pins on the screen
-        let url = NSURL(string: "http://local.moocher.com/api/v1/nearby.php?longitude=\(long)&latitude=\(lat)&radius=\(rad)")
-        let session = NSURLSession.sharedSession()
-        let dataTask = session.dataTaskWithURL(url!, completionHandler: { (data: NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-                //do something
-                if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {//NSDictionary {
-                    for item in json {
-                        var i = item["id"]
-                        println("HEY \(i)")
-                    }
-                }
-            })
+        var endpoint = NSURL(string: "http://moocher.atwebpages.com/api/v1/nearby.php?longitude=\(long)&latitude=\(lat)&radius=\(rad)")
+        var data = NSData(contentsOfURL: endpoint!)
+        
+        if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {
+                        for item in json {
+                            //make a pin and put it on the map
+                            var theAnnotation = MKPointAnnotation()
+                            var theLoc:CLLocationCoordinate2D = CLLocationCoordinate2DMake((item["latitude"] as! NSString).doubleValue,  (item["longitude"] as! NSString).doubleValue)
+                            theAnnotation.coordinate = theLoc
+                            theAnnotation.title = item["id"] as! String
+                            theAnnotation.subtitle = item["additional_instructions"] as! String
+                            self.map.addAnnotation(theAnnotation)
+                        }
+        }
+        
         
         /*
         [
@@ -106,14 +107,20 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         ]
         */
 
-
-        // make pins for each output from server
-        //var theAnnotation = MKPointAnnotation()
-        //theAnnotation.coordinate = theLoc
-        //theAnnotation.title = "Church"
-        //theAnnotation.subtitle = "A famous church"
-        
-        //self.map.addAnnotation(theAnnotation)
+        /*
+        //make a pin and put it on the map
+        var theAnnotation = MKPointAnnotation()
+        var theLoc:CLLocationCoordinate2D = CLLocationCoordinate2DMake(39.133, -84.5165)
+        theAnnotation.coordinate = theLoc
+        theAnnotation.title = "Church"
+        theAnnotation.subtitle = "A famous church"
+        self.map.addAnnotation(theAnnotation)
+        */
+    }
+    
+    func removePins() {
+        let annotationsToRemove = map.annotations.filter { $0 !== self.map.userLocation }
+        map.removeAnnotations( annotationsToRemove )
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
