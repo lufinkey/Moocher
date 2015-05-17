@@ -77,19 +77,51 @@ class Location extends BaseModel
 		return $locations;
 	}
 
-	public static function selectNear($longitude, $latitude, $radius=100000)
+	public static function selectNear($longitude, $latitude, $radius=100000, $tag_filter=array())
 	{
 		if(!is_numeric($longitude) || !is_numeric($latitude) || !is_numeric($radius))
 		{
 			error_log("invalid input for Location::selectNear");
 			return null;
 		}
+		if(!is_array($tag_filter))
+		{
+			if(is_string($tag_filter))
+			{
+				$tag_filter = array($tag_filter);
+			}
+			else
+			{
+				$tag_filter = array();
+			}
+		}
 		$earth_radius=6378137; //radius in meters
 		$lat_high = ($latitude+(($radius/$earth_radius)*180/pi()));
 		$lat_low = ($latitude+(((-$radius)/$earth_radius)*180/pi()));
 		$long_high = ($longitude+(($radius/($earth_radius*cos(pi()*$latitude/180)))*180/pi()));
 		$long_low = ($longitude+(((-$radius)/($earth_radius*cos(pi()*$latitude/180)))*180/pi()));
-		$sql = "SELECT * FROM location WHERE latitude BETWEEN ".$lat_low." AND ".$lat_high." AND longitude BETWEEN ".$long_low." AND ".$long_high." AND expires > now()";
+		$tag_filter_count = count($tag_filter);
+		$sql = "";
+		if($tag_filter_count>0)
+		{
+			$sql = "SELECT location.* FROM location, tag WHERE latitude BETWEEN ".$lat_low." AND ".$lat_high." AND longitude BETWEEN ".$long_low." AND ".$long_high." AND expires > now() AND location.id=location_id AND (";
+			$db = BaseModel::getDatabaseHandle();
+			$counter = 0;
+			$lastIndex = $tag_filter_count-1;
+			foreach($tag_filter as $tag)
+			{
+				$sql .= "tag.tag_name=\"".$db->real_escape_string($tag)."\"";
+				if($counter!=$lastIndex)
+				{
+					$sql .= " OR ";
+				}
+			}
+			$sql .= ")";
+		}
+		else
+		{
+			$sql = "SELECT * FROM location WHERE latitude BETWEEN ".$lat_low." AND ".$lat_high." AND longitude BETWEEN ".$long_low." AND ".$long_high." AND expires > now()";
+		}
 		$result = BaseModel::queryDatabase($sql);
 		if($result==false)
 		{

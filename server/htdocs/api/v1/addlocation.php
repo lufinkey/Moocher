@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 function checkArraySet($array, $keys)
 {
 	$keys_count = count($keys);
-	foreach($key in $keys)
+	foreach($keys as $key)
 	{
 		if(!isset($array[$key]))
 		{
