@@ -1,2 +1,5 @@
 server/accesslog.log
 server/errorlog.log
+
+android-app/build/
+android-app/app/build/
