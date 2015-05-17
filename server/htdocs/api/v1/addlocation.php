@@ -18,6 +18,10 @@ function checkArraySet($array, $keys)
 
 if(checkArraySet($_REQUEST, array("username", "password", "longitude", "latitude")))
 {
+	$username = $_REQUEST["username"];
+	$password = $_REQUEST["password"];
+	$longitude = $_REQUEST["longitude"];
+	$latitude = $_REQUEST["latitude"];
 	$lifespan = 120; //minutes
 	$tags = array();
 	$additional_instructions = "";
