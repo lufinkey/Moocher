@@ -118,6 +118,18 @@ class Location extends BaseModel
 		}
 		return $locations;
 	}
+
+	public static function insert($user_id, $longitude, $latitude, $lifespan=120, $additional_instructions="")
+	{
+		if(!is_numeric($user_id) || !is_numeric($longitude) || !is_numeric($latitude) || !is_numeric($lifespan))
+		{
+			error_log("invalid input for Location::insert");
+			return false;
+		}
+		$sql = "INSERT INTO location (user_id, longitude, latitude, time_created, expires, additional_instructions) ".
+				"values(".$user_id.",".$longitude.",".$latitude.",now(),now()+".($lifespan*60).",\"".BaseModel::getDatabaseHandle()->real_escape_string($additional_instructions)."\")";
+		return BaseModel::queryDatabase($sql);
+	}
 }
 
 ?>

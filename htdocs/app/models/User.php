@@ -46,6 +46,22 @@ class User extends BaseModel
 		return (new User())->initWithAssoc($row);
 	}
 
+	public static function selectByUsername($username)
+	{
+		$sql = "SELECT * FROM user WHERE username=\"".BaseModel::getDatabaseHandle()->real_escape_string($username)."\" LIMIT 1";
+		$result = BaseModel::queryDatabase($sql);
+		if($result==false)
+		{
+			return null;
+		}
+		$row = $result->fetch_assoc();
+		if($row==null)
+		{
+			return null;
+		}
+		return (new User())->initWithAssoc($row);
+	}
+
 	public static function selectAll()
 	{
 		$sql = "SELECT * FROM user";

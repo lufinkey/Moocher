@@ -9,4 +9,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/app/models/User.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/app/models/Location.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/app/models/Tag.php");
 
+function exit_app($code=0)
+{
+	BaseModel::closeDatabaseConnection();
+	exit($code);
+}
+
 ?>
