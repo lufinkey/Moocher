@@ -60,6 +60,11 @@ if(checkArraySet($_REQUEST, array("username", "password", "longitude", "latitude
 		exit_app();
 	}
 	$result = Location::insert($user->id, $longitude, $latitude, $lifespan, $additional_instructions);
+	$location_id = BaseModel::getDatabaseHandle()->insert_id;
+	foreach($tags as $tag)
+	{
+		Tag::insert($location_id, $tag);
+	}
 }
 
 require_once($_SERVER['DOCUMENT_ROOT']."/app/includes/end.php");
