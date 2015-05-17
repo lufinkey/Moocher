@@ -159,7 +159,7 @@ class Location extends BaseModel
 			return false;
 		}
 		$sql = "INSERT INTO location (user_id, longitude, latitude, time_created, expires, additional_instructions) ".
-				"values(".$user_id.",".$longitude.",".$latitude.",now(),date_add(minute, ".$lifespan.", now()),\"".BaseModel::getDatabaseHandle()->real_escape_string($additional_instructions)."\")";
+				"values(".$user_id.",".$longitude.",".$latitude.",now(),date_add(now(), interval ".$lifespan." minute),\"".BaseModel::getDatabaseHandle()->real_escape_string($additional_instructions)."\")";
 		return BaseModel::queryDatabase($sql);
 	}
 }
