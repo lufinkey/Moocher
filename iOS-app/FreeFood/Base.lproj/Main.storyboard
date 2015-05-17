@@ -127,9 +127,23 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Nx1-jT-gjy"/>
                                 </connections>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEu-jg-R8x">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Food" id="vuY-tA-xe0"/>
+                                    <barButtonItem title="Swag" id="eVl-ba-4FQ"/>
+                                    <barButtonItem title="Books" id="hVj-vg-yCF"/>
+                                    <barButtonItem title="Stickers" id="qkb-md-oDC"/>
+                                    <barButtonItem title="T-Shirts" id="VLP-Ra-dhq"/>
+                                    <barButtonItem title="Tech" id="PGc-n1-eCA"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="lEu-jg-R8x" firstAttribute="leading" secondItem="FnW-MK-grm" secondAttribute="leading" id="1NR-qM-13P"/>
+                            <constraint firstItem="lEu-jg-R8x" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="HwW-97-SbT"/>
+                            <constraint firstItem="lEu-jg-R8x" firstAttribute="trailing" secondItem="FnW-MK-grm" secondAttribute="trailing" id="Y28-V7-vWv"/>
                             <constraint firstAttribute="trailing" secondItem="FnW-MK-grm" secondAttribute="trailing" id="dGL-37-jhf"/>
                             <constraint firstItem="FnW-MK-grm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hYg-fE-COZ"/>
                             <constraint firstItem="FnW-MK-grm" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="j23-7g-bWa"/>

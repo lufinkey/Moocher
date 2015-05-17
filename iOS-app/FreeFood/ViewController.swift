@@ -13,6 +13,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 
     @IBOutlet weak var map: MKMapView!
     
+    var titles = [ "Food", "Swag", "Books", "Stickers", "T-Shirts", "Tech"]
+    
     var manager:CLLocationManager!
     var long = -84.5155;
     var lat = 39.132;
@@ -46,6 +48,17 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    /*func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        var endpoint = NSURL(string: "http://moocher.atwebpages.com/api/v1/gettags.php?location_id=\(view.annotation.title)")
+        var data = NSData(contentsOfURL: endpoint!)
+        if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {
+            for item in json {
+                view.annotation.tit
+                return
+            }
+        }
+    }*/
     
 
     func locationManager(manager:CLLocationManager, didUpdateLocations locations:[AnyObject]) {
@@ -81,15 +94,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var data = NSData(contentsOfURL: endpoint!)
         
         if let json: NSArray = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray {
-                        for item in json {
-                            //make a pin and put it on the map
-                            var theAnnotation = MKPointAnnotation()
-                            var theLoc:CLLocationCoordinate2D = CLLocationCoordinate2DMake((item["latitude"] as! NSString).doubleValue,  (item["longitude"] as! NSString).doubleValue)
-                            theAnnotation.coordinate = theLoc
-                            theAnnotation.title = item["id"] as! String
-                            theAnnotation.subtitle = item["additional_instructions"] as! String
-                            self.map.addAnnotation(theAnnotation)
-                        }
+                    for item in json {
+                        //make a pin and put it on the map
+                        var theAnnotation = MKPointAnnotation()
+                        var theLoc:CLLocationCoordinate2D = CLLocationCoordinate2DMake((item["latitude"] as! NSString).doubleValue,  (item["longitude"] as! NSString).doubleValue)
+                        theAnnotation.coordinate = theLoc
+                        theAnnotation.title = titles[(item["id"] as! String).toInt()! % titles.count]
+                        theAnnotation.subtitle = item["additional_instructions"] as! String
+                        self.map.addAnnotation(theAnnotation)
+                    }
         }
         
         
