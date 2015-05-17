@@ -1,2 +1,2 @@
-accesslog.log
-errorlog.log
+server/accesslog.log
+server/errorlog.log
