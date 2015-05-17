@@ -3,13 +3,13 @@ require_once($_SERVER['DOCUMENT_ROOT']."/app/includes/begin.php");
 
 header('Content-Type: application/json');
 
-if(isset($_GET["location_id"]))
+if(isset($_GET["user_id"]))
 {
-	$location_id = $_GET["location_id"];
-	$location = Location::selectById($location_id);
-	if($location!=null)
+	$user_id = $_GET["user_id"];
+	$locations = Location::selectByUserId($user_id);
+	if(isset($locations))
 	{
-		echo json_encode($location);
+		echo json_encode($locations);
 	}
 }
 

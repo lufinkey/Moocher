@@ -12,6 +12,15 @@ if(isset($_GET["longitude"]) && isset($_GET["latitude"]))
 	{
 		$radius = $_GET["radius"];
 	}
+	$tag_filter = array();
+	if(isset($_GET["tag_filter"]))
+	{
+		$tag_filter = json_decode($_GET["tag_filter"]);
+		if($tag_filter==null)
+		{
+			$tag_filter = array();
+		}
+	}
 	$locations = Location::selectNear($longitude, $latitude, $radius);
 	if(isset($locations))
 	{
