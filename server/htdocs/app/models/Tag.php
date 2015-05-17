@@ -73,6 +73,17 @@ class Tag extends BaseModel
 		}
 		return $tags;
 	}
+	
+	public static function insert($location_id, $tag_name)
+	{
+		if(!is_numeric($location_id))
+		{
+			error_log("invalid input for Tag::insert");
+			return false;
+		}
+		$sql = "INSERT INTO tag (location_id, tag_name) values(".$location_id.",\"".BaseModel::getDatabaseHandle()->real_escape_string($tag_name)."\")";
+		return BaseModel::queryDatabase($sql);
+	}
 }
 
 ?>
